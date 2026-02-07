@@ -1,126 +1,97 @@
-Advanced Time Series Forecasting using LSTM and Self-Attention
+Advanced Time Series Forecasting using LSTM and Self Attention
 
-This repository contains a PyTorch-based implementation of an advanced time series forecasting model.
-The project compares a baseline LSTM model with an LSTM model enhanced using a self-attention mechanism.
-The task is to predict the next time step of a multivariate time series.
+Overview
+This project implements a time series forecasting system using deep learning. Two neural network models are developed and compared to study the impact of attention mechanisms on forecasting performance.
 
-Project Overview
+The models implemented are:
 
-Time series forecasting involves learning temporal dependencies from sequential data.
-LSTM networks are well suited for this purpose, and self-attention mechanisms can further improve interpretability by dynamically weighting important time steps.
-This project demonstrates both approaches and compares their performance under identical training conditions.
+A baseline LSTM model
 
-The implementation is designed to run as a single executable script.
+An LSTM model with a self attention mechanism
 
-Key Features
+The objective is to predict the next time step value in a multivariate time series and analyze whether attention improves performance over a standard LSTM.
 
-Synthetic multivariate time series generation
-Sliding window sequence preparation
-Baseline LSTM model
-LSTM with self-attention mechanism
-Model training using PyTorch
-Model evaluation using MAE and RMSE
-Attention weight visualization
+The entire implementation is provided as a single executable Python script for simplicity and reproducibility.
 
 Dataset Description
+A synthetic multivariate time series dataset is generated to simulate realistic temporal behavior.
 
-The dataset is synthetically generated.
 Total time steps: 1500
-Number of features: 5
+Number of input features: 5
 Sequence length: 30
-Target variable: Next time step of the first feature
 
-The dataset includes periodic signals, nonlinear transformations, and trend-based components.
+The features include sinusoidal, cosine, logarithmic, and nonlinear transformations with added noise.
+The target variable is the next time step value of the first feature.
 
-Model Architecture
+Model Architectures
 
 Baseline LSTM Model
-Single-layer LSTM network
-Final hidden state used for prediction
-Fully connected output layer
+The baseline model consists of a single LSTM layer followed by a fully connected output layer. The final hidden state of the LSTM is used to generate the prediction. This model serves as a reference for comparison.
 
-LSTM with Self-Attention Model
-Single-layer LSTM network
-Self-attention applied across all time steps
-Context vector computed using attention weights
-Fully connected output layer
+LSTM with Self Attention Model
+This model uses an LSTM encoder to process the input sequence. A self attention mechanism is applied over all LSTM outputs to compute a weighted context vector. The context vector is then passed through a fully connected layer to generate the final prediction. The attention mechanism allows the model to focus on important time steps in the sequence.
 
 Training Configuration
 
-Framework: PyTorch
 Optimizer: Adam
+Learning rate: 0.001
 Loss function: Mean Squared Error
+Epochs: 10
 Batch size: 32
-Number of epochs: 10
-Train-test split: 80 percent training, 20 percent testing
+Train test split: 80 percent training and 20 percent testing
+
+Hyperparameters were kept fixed to focus on architectural comparison rather than optimization.
 
 Evaluation Metrics
+
+The models are evaluated using the following metrics on the test dataset:
 
 Mean Absolute Error
 Root Mean Squared Error
 
-Results
+These metrics provide complementary measures of forecasting accuracy.
 
-After training, the program prints MAE and RMSE values for both models.
-In this experiment, the baseline LSTM achieved slightly better performance than the attention-based LSTM.
-This outcome highlights that attention mechanisms do not always guarantee performance improvements, particularly on simpler or highly regular datasets.
+Results Summary
 
-Areas for Improvement
+In the current experiment, the baseline LSTM slightly outperformed the LSTM with attention. This indicates that the attention mechanism did not provide a measurable performance gain for this specific dataset and configuration.
 
-Model Performance
+Analysis of Attention Performance
 
-The attention-based LSTM performed slightly worse than the baseline LSTM in this experiment.
-This result suggests that the synthetic dataset may not be complex enough to fully benefit from an attention mechanism.
-Attention models typically demonstrate clearer advantages on longer sequences, noisier data, or tasks with irregular temporal dependencies.
+The underperformance of the attention based model can be explained by several factors:
 
-Hyperparameter Tuning
+The synthetic dataset contains smooth and regular temporal patterns that a standard LSTM can already model effectively.
+The sequence length is relatively short, limiting the benefit of modeling long range dependencies.
+The attention mechanism introduces additional parameters, which may increase model complexity without sufficient data complexity.
+Hyperparameter tuning was minimal, which may prevent the attention model from reaching its full potential.
 
-Hyperparameter tuning was minimal, with fixed values for learning rate and number of epochs.
-This choice was made to ensure simplicity and a fair comparison between models.
-Future work can include systematic tuning using grid search or other optimization strategies.
-
-Depth of Analysis
-
-The analysis focuses primarily on implementation and architectural comparison.
-A deeper investigation into hidden representations, learning dynamics, and architectural variations was outside the current scope but remains a potential extension.
-
-Deliverables and Documentation
-
-The project deliverables are intentionally lightweight, consisting of a clean README and executable script.
-A detailed technical report was not included, as the goal of the repository is to demonstrate model implementation rather than serve as a full research study.
+These results do not imply that attention mechanisms are ineffective in general, but rather that their benefits are dependent on the nature of the data and the task.
 
 Attention Visualization
 
-Attention visualization is limited to a single sample and is intended to demonstrate interpretability rather than provide a statistical comparison.
-Future improvements may include averaging attention weights across multiple samples or comparing attention patterns across different prediction outcomes.
+Attention weights are visualized for a single test sample to demonstrate interpretability. The visualization shows how the model distributes importance across different time steps when making a prediction.
 
-Requirements
+A deeper statistical analysis across multiple samples is not included and is considered future work.
 
-Python 3.x
-numpy
-torch
-matplotlib
-scikit-learn
+Limitations
+
+Hyperparameter tuning was minimal.
+Only synthetic data was used for evaluation.
+Attention analysis was limited to a single sample visualization.
+The project structure is minimal and focused on demonstration rather than large scale benchmarking.
+
+Future Work
+
+Perform systematic hyperparameter tuning including learning rate and hidden size.
+Evaluate the models on real world time series datasets.
+Analyze attention weights across multiple samples and time windows.
+Include additional evaluation metrics such as Mean Absolute Percentage Error.
+Expand the project into a modular multi file structure with a detailed technical report.
 
 How to Run
 
-Clone the repository
-Open the Python script in a Python environment
-Restart the runtime or kernel
-Run the entire program in a single execution
+Install the required libraries using pip.
+Run the Python script containing the implementation.
 
-Project Structure
+Conclusion
 
-time_series_lstm_attention.py
-README.md
-
-Use Cases
-
-Educational demonstrations of LSTM and attention mechanisms
-Time series forecasting experiments
-Academic projects and coursework
-Research prototyping
-
-License
-
-This project is intended for educational and experimental purposes.
+This project provides a clear and reproducible comparison between a baseline LSTM and an attention enhanced LSTM for time series forecasting. Although attention did not outperform the baseline in this setup, the implementation and analysis provide a strong foundation for further experimentation and improvement.
